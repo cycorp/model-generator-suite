@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Clean Install</actionName>
+            <displayName>Clean Install</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-clean install update-local-catalog</actionName>
+            <displayName>clean install update-local-catalog</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+                <goal>archetype:update-local-catalog</goal>
+            </goals>
+        </action>
+    </actions>

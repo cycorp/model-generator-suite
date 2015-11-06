@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cycModelDescription 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.cyc.com/xsd/CycModelDescription">
+  
+  <project name="TestAppThingamabob"/>
+  
+  <interface collection="Gizmo">
+    <method predicate="gizmoObservedToBeOperationalOnDate" collection="Gizmo" functionType="get"/>
+    <method predicate="gizmoObservedToBeBrokenOnDate" collection="Gizmo"/>
+  </interface>
+  
+</cycModelDescription>

@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.cyc.model</groupId>
+    <artifactId>cyc-model-parent</artifactId>
+    <version>1.0.0-alpha-preview-1</version>
+  </parent>
+  
+  <groupId>${groupId}</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <version>${version}</version>
+  <!-- Change packaging to "war" to deploy as RESTful service -->
+  <packaging>jar</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.6.1</version>
+        <configuration>
+          <!-- 
+          Before checking in for general use, the person who generated this project should "harden"
+          the project. That is, to make sure that generated-sources are not deleted on "mvn clean" 
+          by uncommenting the following configuration block:
+          -->
+          <!--
+          <excludeDefaultDirectories>true</excludeDefaultDirectories>
+          <filesets>
+            <fileset>
+              <directory>target/</directory>
+              <excludes>
+                <exclude>generated-sources/</exclude>
+              </excludes>
+            </fileset>
+          </filesets>
+          -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.cyc.model.maven</groupId>
+        <artifactId>cyc-model-generator-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!--
+          Configuration parameters for the cyc-model-generator-plugin and their default values...
+          
+          Force code generation if srcPath already exists. The original srcPath directory will not 
+          be deleted, but any duplicate files will be clobbered:
+          <forceRegenerate>false</forceRegenerate>
+          
+          Validate CycModelDescription against XSD:
+          <validateCMD>true</validateCMD>
+          
+          Location of CycModelDescription file:
+          <cmdPath>src/main/resources/CycModelDescription.xml</cmdPath>
+          
+          Output directory for generated code. The contents of this directory can be volatile, so
+          don't put anything here you're not comfortable losing:
+          <srcPath>target/generated-sources/mapi</srcPath>
+          
+          Generate JAX-RS web services (currently under development):
+          <generateWS>false</generateWS>
+          
+          Generate web UI (currently under development):
+          <generateUI>false</generateUI>
+          -->
+          <validateCMD>false</validateCMD>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>target/generated-sources/mapi</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <!-- Required for RESTful services -->
+      <!--
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <scanIntervalSeconds>2</scanIntervalSeconds>
+          <stopPort>9966</stopPort>
+          <stopKey>jetty8080</stopKey>
+        </configuration>
+      </plugin>
+      -->
+    </plugins>
+  </build>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.cyc.model.maven</groupId>
+      <artifactId>cyc-model-generator-plugin</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.cyc</groupId>
+      <artifactId>cyc-core-suite</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    
+    <!-- Required for RESTful services -->
+    <!--
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.cyc.library</groupId>
+      <artifactId>RestfulServiceUtil</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-json</artifactId>
+      <version>1.8</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>jsr311-api</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    -->
+    
+    <!-- Deprecated, ignore. -->
+    <!--
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    -->
+  </dependencies>
+</project>

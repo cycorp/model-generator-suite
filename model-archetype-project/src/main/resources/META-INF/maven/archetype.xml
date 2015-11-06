@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0 http://maven.apache.org/xsd/archetype-1.0.0.xsd">
+
+  <id>MAPIApplicationArchetype</id>
+  <allowPartial>true</allowPartial>
+
+  <sources>
+    <source>src/main/java/App.java</source>
+  </sources>
+  
+  <resources>
+    <resource>src/main/resources/CycModelDescription.xml</resource>
+    <resource>src/main/webapp/default.css</resource>
+    <resource>nbactions.xml</resource>
+  </resources>
+
+  <testSources>
+    <source>src/test/java/AppTest.java</source>
+  </testSources>
+</archetype>

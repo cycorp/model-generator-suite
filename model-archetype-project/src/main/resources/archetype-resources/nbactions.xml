@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+  <action>
+    <actionName>CUSTOM-Jetty: Clean, Build, and Run</actionName>
+    <displayName>Jetty: Clean, Build, and Run</displayName>
+    <goals>
+      <goal>clean</goal>
+      <goal>jetty:run</goal>
+    </goals>
+  </action>
+  <action>
+    <actionName>CUSTOM-Jetty: Start</actionName>
+    <displayName>Jetty: Start</displayName>
+    <goals>
+      <goal>jetty:start</goal>
+    </goals>
+  </action>
+  <action>
+    <actionName>CUSTOM-Jetty: Stop</actionName>
+    <displayName>Jetty: Stop</displayName>
+    <goals>
+      <goal>jetty:stop</goal>
+    </goals>
+  </action>
+  <action>
+    <actionName>CUSTOM-Jetty: Restart</actionName>
+    <displayName>Jetty: Restart</displayName>
+    <goals>
+      <goal>jetty:stop</goal>
+      <goal>jetty:start</goal>
+    </goals>
+  </action>
+</actions>

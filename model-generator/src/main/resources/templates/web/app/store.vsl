@@ -1,0 +1,25 @@
+Ext.define('${app_name}.store.${classes}', {
+  extend: 'Ext.data.Store',
+  model : '${app_name}.model.${class}',
+  autoLoad: true,
+  
+  proxy: {
+    type: 'ajax',
+    api: {
+## FIXME: this
+      url:    '/ws/thingamabob/list/',
+      read:   '/ws/thingamabob/list/',
+      update: '/ws/thingamabob/list/'
+/*
+      read:   '/ws/thingamabob/name/test_Gizmo3/',
+      update: '/ws/thingamabob/name/test_Gizmo3/'
+*/
+    },
+    reader: {
+      type: 'json',
+##      root: '${classes}',
+      root: 'results',
+      successProperty: 'success'
+    }
+  }
+});

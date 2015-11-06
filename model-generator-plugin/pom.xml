@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.cyc.model</groupId>
+    <artifactId>cyc-model-parent</artifactId>
+    <version>1.0.0-alpha-preview-1</version>
+  </parent>
+  
+  <groupId>com.cyc.model.maven</groupId>
+  <artifactId>cyc-model-generator-plugin</artifactId>
+  <version>1.0.0-alpha-preview-1</version>
+  <packaging>maven-plugin</packaging>
+  
+  <name>Cyc Model Generator Plugin</name>
+  <description>
+    Maven plugin for invoking the Cyc Model Generator.
+  </description>
+  <url>http://dev.cyc.com/</url>
+  
+  <scm>
+    <connection>scm:git:git@github.com:cycorp/model-generator-suite.git</connection>
+    <developerConnection>scm:git:git@github.com:cycorp/model-generator-suite.git</developerConnection>
+    <url>https://github.com/cycorp/model-generator-suite</url>
+  </scm>
+  
+  <issueManagement>
+    <url>http://dev.cyc.com/issues/</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+  
+  <inceptionYear>2013</inceptionYear>
+  
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  
+  <organization>
+    <name>Cycorp, Inc.</name>
+    <url>http://www.cyc.com</url>
+  </organization>
+  
+  <developers>
+    <developer>
+      <name>Cycorp API Team</name>
+      <email>dev-team@cyc.com</email>
+      <organization>Cycorp, Inc.</organization>
+      <organizationUrl>http://www.cyc.com</organizationUrl>
+    </developer>
+  </developers>
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.cyc.model</groupId>
+      <artifactId>cyc-model-generator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.cyc</groupId>
+      <artifactId>cyc-core-suite</artifactId>
+      <scope>compile</scope>
+      <classifier>jar-with-dependencies</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <version>3.2</version>
+    </dependency>
+  </dependencies>
+  
+</project>

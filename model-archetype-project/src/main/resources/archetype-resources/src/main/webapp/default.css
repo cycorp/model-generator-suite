@@ -1,0 +1,38 @@
+/* 
+    Document   : api.css
+    Created on : Feb 13, 2013, 3:27:43 PM
+    Author     : nwinant
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+  font-family: sans-serif;
+  font-size: small;
+}
+
+table {
+  border-spacing: 2px;
+}
+
+table th {
+  text-align: left;
+}
+
+table th, table td {
+  padding: 5px 10px;
+  border-top: solid 1px transparent;
+  border-bottom: solid 1px transparent;
+  background-color: #eee;
+}
+
+table tr:hover th, table tr:hover td {
+  border-top: solid 1px #bbb;
+  border-bottom: solid 1px #bbb;
+  background-color: #fff;
+}
+
+a:hover {
+  color: #900000;
+  text-decoration: none;
+}

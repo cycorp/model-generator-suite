@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cycModelDescription 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://cyc.com/xsd/CycModelDescription">
+  
+  <project name="${artifactId}" package="${groupId}"/>
+  
+  <!-- ===  Example configuration:  ============================================================ -->
+  <!--
+  <interface collection="ComputerProgram-CW">  
+  </interface>
+  
+  <interface collection="Agent-Generic">
+  </interface>
+
+  <interface collection="ComputerUser">
+    <extends collection="Agent-Generic"/>
+    <method predicate="UserOfProgramFn" collection="ComputerUser" functionType="factory"/>    
+  </interface>
+
+  <interface collection="Cyclist">
+    <extends collection="ComputerUser"/>
+  </interface>
+
+  <interface collection="HumanCyclist">
+    <extends collection="Cyclist"/>
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="getTypeList"/>
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="get"/>
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="set"/>
+  </interface>
+  
+  <interface collection="Cyc-BasedProject">
+  </interface>   
+  -->
+  
+  <!-- ===  Explanation of the example configuration:  ========================================= -->
+  <!--
+  <interface collection="Agent-Generic">
+  </interface>
+
+  <interface collection="ComputerUser">
+
+    This will make the generated Java class "ComputerUser" a subclass of  generated 
+    Java class Agent-Generic. There could be any number of type chaining. 
+    Multiple extends, (multiple inheritence is not support.)
+
+    <extends collection="Agent-Generic"/>
+
+    This generates a static "factory" method. A Function can be used in Java 8. 
+    The generated method in this case UserOfProgramFn, will return the collection 
+    defined in "collection" field of "method" specification (confirm this) 
+    Factory methods have no arity limitations 
+
+    <method predicate="UserOfProgramFn" collection="ComputerUser" functionType="factory"/>    
+
+  </interface>
+
+  <interface collection="Cyclist">
+    <extends collection="ComputerUser"/>
+  </interface>
+
+  <interface collection="HumanCyclist">
+    <extends collection="Cyclist"/>
+    
+    This generates one type of method with two signatures.
+
+    The get* method returns one binding satisifying the sentence in the given microtheory 
+    If you want all bindings build a KB.Sentence using sentence* method and issue a query using Query API 
+    In future release, getList will be supported.
+
+    Get methods are generated for only BinaryPredicates. Since the return position/combination is not explosive.
+
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="get"/>
+
+    This generates two types of methods a setCyclistPrimaryProject and sentenceCyclistPrimaryProject 
+
+    The set* methods internally call sentence* methods and then use Sentence.assertIn() to actually assert ("set")
+    Set methods have not arity limitation
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="set"/> 
+    
+  </interface>
+
+  <interface collection="ComputerProgram-CW">  
+  </interface>
+
+  <interface collection="Cyc-BasedProject">
+  </interface>
+  -->
+
+</cycModelDescription>
