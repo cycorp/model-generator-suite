@@ -33,7 +33,7 @@ From the command line:
 Usage
 -----
 
-Generate a project:
+Generate a project (substituting in the appropriate values):
 
     mvn archetype:generate                               \
       -DarchetypeGroupId=com.cyc.model.maven             \
@@ -45,9 +45,9 @@ Generate a project:
 
 If Maven prompts you for anything, accept the defaults. Then:
 
-    cd test-project
+    cd <my-artifactId>
 
-Then, edit the project's `src/main/resources/CycModelDescription.xml`. This file contains some
+Next, edit the project's `src/main/resources/CycModelDescription.xml`. This file contains some
 commented-out configuration examples, along with some explanatory documentation.
 
 Lastly, run the following to generate model representation code:
