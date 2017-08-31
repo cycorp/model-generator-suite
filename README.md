@@ -1,8 +1,6 @@
 Cyc Model Generator Suite
 =========================
 
-**_Alpha preview 1_**
-
 The Cyc Model Generator Suite provides automated generation of domain-specific Java APIs from terms
 in the Cyc KB. It is conceptually similar to, e.g., object-relational mapping (ORM) frameworks like
 Hibernate which provide domain-specific APIs for traditional relational databases.
@@ -38,7 +36,7 @@ Generate a project (substituting in the appropriate values):
     mvn archetype:generate                               \
       -DarchetypeGroupId=com.cyc.model.maven             \
       -DarchetypeArtifactId=cyc-model-archetype-project  \
-      -DarchetypeVersion=1.0.0-alpha-preview-1           \
+      -DarchetypeVersion=1.0.0-rc6                       \
       -DgroupId=<my-groupid>                             \
       -DartifactId=<my-artifactId>                       \
       -Dversion=<my-version>
@@ -75,7 +73,7 @@ command line:
     mvn archetype:generate                               \
       -DarchetypeGroupId=com.cyc.model.maven             \
       -DarchetypeArtifactId=cyc-model-archetype-project  \
-      -DarchetypeVersion=1.0.0-alpha-preview-1           \
+      -DarchetypeVersion=1.0.0-rc6                       \
       -DgroupId=my.test                                  \
       -DartifactId=test-project                          \
       -Dversion=0.1.0-SNAPSHOT

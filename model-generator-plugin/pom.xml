@@ -7,15 +7,15 @@
   <parent>
     <groupId>com.cyc.model</groupId>
     <artifactId>cyc-model-parent</artifactId>
-    <version>1.0.0-alpha-preview-1</version>
+    <version>1.0.0-rc6</version>
   </parent>
   
   <groupId>com.cyc.model.maven</groupId>
   <artifactId>cyc-model-generator-plugin</artifactId>
-  <version>1.0.0-alpha-preview-1</version>
+  <version>1.0.0-rc6</version>
   <packaging>maven-plugin</packaging>
   
-  <name>Cyc Model Generator Plugin</name>
+  <name>Model Generator Plugin</name>
   <description>
     Maven plugin for invoking the Cyc Model Generator.
   </description>
@@ -77,7 +77,7 @@
     </dependency>
     <dependency>
       <groupId>com.cyc</groupId>
-      <artifactId>cyc-core-suite</artifactId>
+      <artifactId>cyc-core-client-impl</artifactId>
       <scope>compile</scope>
       <classifier>jar-with-dependencies</classifier>
     </dependency>

@@ -1,5 +1,5 @@
 #* General Java-related macros. 
-   This file is loaded by com.cyc.library.mapi.templates.JavaTemplate.
+   This file is loaded by com.cyc.model.templates.JavaTemplate.
 *#
 
 
@@ -25,7 +25,7 @@
  * @since 0.90
  */
 
-    package $package;
+package $package;
 
 #foreach( $import in $imports )
 import $import;

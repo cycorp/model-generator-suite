@@ -23,20 +23,20 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
    * is <code>null</code> <strong>and</strong> the InferenceResultSet has exactly one column, that column
    * will be used.
    * @return
-   * @throws ModelAPIException
+   * @throws ModelException
    * @throws Exception 
    */
-  public Set<${class_obj.PrimaryImpl.Name}> createSet(final QueryResultSet resultSet, final CycVariableImpl column) throws ModelAPIException, Exception {
+  public Set<${class_obj.PrimaryImpl.Name}> createSet(final QueryResultSet resultSet, final CycVariableImpl column) throws ModelException, Exception {
     final CycVariableImpl bindingVar = (column != null) ? column : findBindingVariable(resultSet);
     final Set<${class_obj.PrimaryImpl.Name}> results = new HashSet<${class_obj.PrimaryImpl.Name}>();
     while (resultSet.next()) {
-      final KBObject name = resultSet.getObject(bindingVar.toString(), KBObject.class);
+      final KbObject name = resultSet.getObject(bindingVar.toString(), KbObject.class);
       results.add(new ${class_impl}(name.toString()));
     }
     return results;
   }
   
-  public List<${class_obj.PrimaryImpl.Name}> find(final Query query, final CycVariableImpl column, Comparator<${class_obj.PrimaryImpl.Name}> comparator) throws CycApiException, IOException, ModelAPIException, Exception {
+  public List<${class_obj.PrimaryImpl.Name}> find(final Query query, final CycVariableImpl column, Comparator<${class_obj.PrimaryImpl.Name}> comparator) throws CycApiException, IOException, ModelException, Exception {
     final List<${class_obj.PrimaryImpl.Name}> results;
     query.performInference();
     
@@ -45,15 +45,15 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
     return results;
   }
   
-  public List<${class_obj.PrimaryImpl.Name}> find(final Query query, final CycVariableImpl var) throws CycApiException, IOException, ModelAPIException, Exception {
+  public List<${class_obj.PrimaryImpl.Name}> find(final Query query, final CycVariableImpl var) throws CycApiException, IOException, ModelException, Exception {
     return find(query, var, getDefaultComparator());
   }
   
-  public List<${class_obj.PrimaryImpl.Name}> find(final Query query, Comparator<${class_obj.PrimaryImpl.Name}> comparator) throws CycApiException, IOException, ModelAPIException, Exception {
+  public List<${class_obj.PrimaryImpl.Name}> find(final Query query, Comparator<${class_obj.PrimaryImpl.Name}> comparator) throws CycApiException, IOException, ModelException, Exception {
     return find(query, null, comparator);
   }
   
-  public List<${class_obj.PrimaryImpl.Name}> find(final Query query) throws CycApiException, IOException, ModelAPIException, Exception {
+  public List<${class_obj.PrimaryImpl.Name}> find(final Query query) throws CycApiException, IOException, ModelException, Exception {
     return find(query, getDefaultComparator());
   }
   
@@ -115,7 +115,7 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
     try {
       ${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName} = new ${class_obj.PrimaryImpl.InstanceType} (ctx, ${class_obj.PrimaryImpl.InstanceName}NLStr, ${name}.getCore());
       return new $name(new SimpleContextMap(ctx), ${class_obj.PrimaryImpl.InstanceName});
-    } catch (KBApiException kae) {
+    } catch (KbException kae) {
       return null;
     }
   }
@@ -139,7 +139,7 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
   }
   
   // TODO: Decide if we need the following two methods. They don't hurt, but should 
-  // we expose lower level API (KBIndividual, KBCollection) to be accessible so easily?
+  // we expose lower level API (KbIndividual, KbCollection) to be accessible so easily?
   // If the user is using these frequently then there is an issue with the API.
   // Another point: Functionally the methods based on predicates defined here is 
   // all you can do with this concept. Ideally there should not be a need for accessing

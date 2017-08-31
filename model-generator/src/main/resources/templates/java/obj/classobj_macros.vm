@@ -1,5 +1,5 @@
 #* Java class-related macros. 
-   This file is loaded by com.cyc.library.mapi.templates.ClassObjTemplate.
+   This file is loaded by com.cyc.model.templates.ClassObjTemplate.
 *#
 
 

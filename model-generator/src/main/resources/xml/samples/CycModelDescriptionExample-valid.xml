@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cycModelDescription 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://cyc.com/xsd/CycModelDescription">
+  
+  <project name="ModelTestExample" package="com.cyc.model.test"/>
+  
+  <interface collection="HumanCyclist">
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="getTypeList"/>
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="get"/>
+    <method predicate="cyclistPrimaryProject" collection="HumanCyclist" functionType="set"/>
+    <method predicate="groupsReviewer" collection="HumanCyclist" functionType="get"/>
+  </interface>
+  
+</cycModelDescription>

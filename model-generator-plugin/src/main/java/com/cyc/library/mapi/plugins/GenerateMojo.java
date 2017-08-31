@@ -1,14 +1,15 @@
 package com.cyc.library.mapi.plugins;
 
-import com.cyc.base.CycConnectionException;
-import com.cyc.library.mapi.generator.ModelGenerator;
-import com.cyc.library.mapi.generator.WebGenerator;
-import com.cyc.library.mapi.xml.XMLProjectLoader;
-import com.cyc.library.model.ProjectObj;
-import com.cyc.kb.exception.KBApiException;
+import com.cyc.model.generator.ModelGenerator;
+import com.cyc.model.generator.WebGenerator;
+import com.cyc.model.xml.XmlProjectLoader;
+import com.cyc.model.objects.ProjectObj;
+import com.cyc.kb.exception.KbException;
+import com.cyc.session.CycServerAddress;
+import com.cyc.session.CycSessionManager;
+import com.cyc.session.exception.SessionException;
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBException;
@@ -18,7 +19,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
 /**
- * @mojo mapi
+ * @mojo model
  * @phase generate-sources
  * @goal generate
  * @requiresProject false
@@ -30,12 +31,11 @@ public class GenerateMojo extends AbstractMojo {
   @Override
   public void execute() throws MojoExecutionException, MojoFailureException {
     try {
-      printParameters();
       setup();
       if (isGenerationNecessary()) {
         generateProject();
       } else {
-        getLog().info("Skipping MAPI generation; " + fullSrcPath + " exists and mapi.forceRegenerate=" + forceRegenerate);
+        getLog().info("Skipping model generation; " + fullSrcPath + " exists and model.forceRegenerate=" + forceRegenerate);
       }
     } catch (Exception ex) {
       this.getLog().error(ex);
@@ -47,35 +47,49 @@ public class GenerateMojo extends AbstractMojo {
   // Protected
   
   protected void printParameters() {
-    getLog().info("mojo.project        : " + project);
+    getLog().info("mojo.project         : " + project);
     /*
-    getLog().info("mojo...dir          : " + project.getModel().getBuild().getDirectory());
-    getLog().info("mojo...srcDir       : " + project.getModel().getBuild().getSourceDirectory());
-    getLog().info("mojo...finalName    : " + project.getModel().getBuild().getFinalName());
+    getLog().info("mojo...dir           : " + project.getModel().getBuild().getDirectory());
+    getLog().info("mojo...srcDir        : " + project.getModel().getBuild().getSourceDirectory());
+    getLog().info("mojo...finalName     : " + project.getModel().getBuild().getFinalName());
     List resources = project.getModel().getBuild().getResources();
     for (Object o : resources) {
       getLog().info("  resource: " + o);
     }
     */
-    getLog().info("mojo...finalName    : " + project.getModel().getBuild().getFinalName());
-    getLog().info("mojo.forceRegenerate: " + forceRegenerate);
-    getLog().info("mojo.validateCMD    : " + validateCMD);
-    getLog().info("mojo.cmdPath        : " + cmdPath);
-    getLog().info("mojo.srcPath        : " + srcPath);
-    getLog().info("mojo.cyc            : " + cyc);
-    getLog().info("mojo.generateWS     : " + generateWS);
-    getLog().info("mojo.generateUI     : " + generateUI);
+    getLog().info("mojo...finalName     : " + project.getModel().getBuild().getFinalName());
+    getLog().info("model.forceRegenerate: " + forceRegenerate);
+    getLog().info("model.validateCMD    : " + validateCMD);
+    getLog().info("model.workspacePath  : " + workspacePath);
+    getLog().info("model.cmdPath        : " + cmdPath);
+    getLog().info("model.srcPath        : " + srcPath);
+    getLog().info("model.generateWS     : " + generateWS);
+    getLog().info("model.generateUI     : " + generateUI);
+    getLog().info("Cyc server           : " + cyc);
   }
   
-  protected void setup() throws UnknownHostException, IOException, CycConnectionException {
-    // this.workspacePath = new java.io.File(".").getCanonicalPath();
-    File workspaceDir = new File(project.getModel().getBuild().getDirectory() + FS + "..");
-    this.workspacePath = workspaceDir.getCanonicalPath();
-    getLog().info("Workspace directory: " + workspacePath);
-    this.fullSrcPath = workspacePath + FS + srcPath + FS;
-    getLog().info("Full source path: " + fullSrcPath);
-    this.fullCmdPath = workspacePath + FS + cmdPath;
+  protected void setup() throws IOException, SessionException {
+    if (workspacePath == null) {
+      // this.workspacePath = new java.io.File(".").getCanonicalPath();
+      File workspaceDir = new File(project.getModel().getBuild().getDirectory() + FS + "..");
+      this.workspacePath = workspaceDir.getCanonicalPath();
+    }
+    cyc = CycSessionManager.getCurrentSession().getServerInfo().getCycServer();
+    printParameters();
     
+    if (srcPath.trim().startsWith(File.pathSeparator)) {
+      this.fullSrcPath = srcPath + FS;
+    } else {
+      this.fullSrcPath = workspacePath + FS + srcPath + FS;
+    }
+    getLog().info("Full source path: " + fullSrcPath);
+    
+    if (cmdPath.trim().startsWith(File.pathSeparator)) {
+      this.fullCmdPath = cmdPath;
+    } else {
+      this.fullCmdPath = workspacePath + FS + cmdPath;
+    }
+    getLog().info("Full CycModelDescription path: " + fullCmdPath);
   }
 
   protected boolean isGenerationNecessary() {
@@ -90,24 +104,26 @@ public class GenerateMojo extends AbstractMojo {
     }
   }
 
-  protected void generateProject() throws JAXBException, KBApiException, Exception {
-    XMLProjectLoader loader = new XMLProjectLoader(validateCMD, workspacePath, fullSrcPath + FS);
+  protected void generateProject() throws JAXBException, KbException, Exception {
+    XmlProjectLoader loader = new XmlProjectLoader(validateCMD, workspacePath, fullSrcPath + FS);
     makeJavaPaths();
     getLog().info("Generating MAPI classes in " + fullSrcPath);
-    final ProjectObj project = loader.loadProject(fullCmdPath);
-    project.setDirName(fullSrcPath);
-    generateModel(project);
-    generateWebapp(project);
+    final ProjectObj projectObj = loader.loadProject(fullCmdPath);
+    projectObj.setDirName(fullSrcPath);
+    generateModel(projectObj);
+    generateWebapp(projectObj);
     getLog().info("... MAPI generation complete! Results in " + fullSrcPath);
   }
   
-  protected void generateModel(ProjectObj project) throws IOException {  
+  protected void generateModel(ProjectObj projectObj) throws IOException {  
     getLog().info("Building model classes...");
     final ModelGenerator generator =  new ModelGenerator();
-    generator.generate(project);
+    System.out.println("PROJ DIR: " + projectObj.getDirName());
+    System.out.println("PROJ WORK: " + projectObj.getWorkspace());
+    generator.generate(projectObj);
   }
   
-  protected void generateWebapp(ProjectObj project) throws IOException {
+  protected void generateWebapp(ProjectObj projectObj) throws IOException {
     if (generateWS || generateUI) {
       getLog().info("Building web services...");
       final List<String> directives = new ArrayList<String>();
@@ -118,7 +134,7 @@ public class GenerateMojo extends AbstractMojo {
         directives.add(WebGenerator.GENERATE_UI_DIRECTIVE);
       }
       final WebGenerator generator = new WebGenerator(directives);
-      generator.generate(project);
+      generator.generate(projectObj);
     }
   }
   
@@ -128,47 +144,47 @@ public class GenerateMojo extends AbstractMojo {
   protected static final String FS = System.getProperty("file.separator");
   
   /**
-   * @parameter expression="${mapi.forceRegenerate}" default-value="false"
+   * @parameter property="model.forceRegenerate" default-value="false"
    */
   protected boolean forceRegenerate;
  
   /**
-   * @parameter expression="${mapi.validateCMD}" default-value="true"
+   * @parameter property="model.validateCMD" default-value="true"
    */
   protected boolean validateCMD;
   
   /**
-   * @parameter expression="${mapi.cmdPath}" default-value="src/main/resources/CycModelDescription.xml"
+   * @parameter property="workspacePath" 
+   */
+  protected String workspacePath;
+  
+  /**
+   * @parameter property="model.cmdPath" default-value="src/main/resources/CycModelDescription.xml"
    */
   protected String cmdPath;
   
   /**
-   * @parameter expression="${mapi.srcPath}" default-value="target/generated-sources/mapi"
+   * @parameter property="model.srcPath" default-value="target/generated-sources/mapi"
    */
   protected String srcPath;
-  
+    
   /**
-   * @parameter expression="${mapi.cyc}" default-value="localhost:3600"
-   */
-  protected String cyc;
-  
-  /**
-   * @parameter expression="${mapi.generateWS}" default-value="false"
+   * @parameter property="model.generateWS" default-value="false"
    */
   protected boolean generateWS;
   
   /**
-   * @parameter expression="${mapi.generateUI}" default-value="false"
+   * @parameter property="model.generateUI" default-value="false"
    */
   protected boolean generateUI;
   
   /**
-   * @parameter expression="${project}"
+   * @parameter property="project"
    * @readonly
    */
   protected MavenProject project;
-
-  protected String workspacePath;
+  
   protected String fullSrcPath;
   protected String fullCmdPath;
+  protected CycServerAddress cyc;
 }

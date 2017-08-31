@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
   <parent>
     <groupId>com.cyc</groupId>
     <artifactId>cyc-default-config-parent</artifactId>
-    <version>0.1.0</version>
+    <version>1.0.0-rc6</version>
+    <relativePath/>
+    <!--relativePath>../maven-resources/parent-poms/default-config-parent</relativePath-->
   </parent>
   
   <groupId>com.cyc.model</groupId>
   <artifactId>cyc-model-parent</artifactId>
-  <version>1.0.0-alpha-preview-1</version>
+  <version>1.0.0-rc6</version>
   <packaging>pom</packaging>
   
-  <name>Cyc Model Parent</name>
+  <name>Model Parent</name>
   <description>
     Parent pom for all Cyc Model Generator-related projects.
   </description>
@@ -67,8 +67,14 @@
   </distributionManagement>
   
   <properties>
-    <cyc-core-suite.version>1.0.0-rc4</cyc-core-suite.version>
-    <cyc-model-suite.version>1.0.0-alpha-preview-1</cyc-model-suite.version>
+    <cyc-model-suite.version>1.0.0-rc6</cyc-model-suite.version>
+    <!--
+    <cyc-model-generator-plugin.workspacePath>${project.build.directory}</cyc-model-generator-plugin.workspacePath>
+    <cyc-model-generator-plugin.base>${project.build.directory}</cyc-model-generator-plugin.base>
+    <cyc-model-generator-plugin.srcPath>${cyc-model-generator-plugin.base}/generated-sources/model1</cyc-model-generator-plugin.srcPath>
+    
+    <cyc-model-generator-plugin.srcPath>target/generated-sources/model2</cyc-model-generator-plugin.srcPath>
+    -->
   </properties>
   
   <modules>
@@ -76,7 +82,88 @@
     <module>model-generator-plugin</module>
     <module>model-archetype-project</module>
   </modules>
-
+  
+  <!--
+      <build>
+        <sourceDirectory>${basedir}/path/to/sources</sourceDirectory>
+      </build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <echo>Displaying value of pom.xml element</echo>
+                <echo>[cyc-model-generator-plugin.base] ${cyc-model-generator-plugin.base}</echo>
+                <echo>[cyc-model-generator-plugin.srcPath] ${cyc-model-generator-plugin.srcPath}</echo>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+  -->
+  
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+        <groupId>com.cyc.model.maven</groupId>
+        <artifactId>cyc-model-generator-plugin</artifactId>
+        <version>1.0.0-rc6</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <forceRegenerate>false</forceRegenerate>
+          <!--
+          <workspacePath>${cyc-model-generator-plugin.workspacePath}</workspacePath>
+          
+          <srcPath>${cyc-model-generator-plugin.srcPath}</srcPath>
+          -->
+          <!--
+          The configuration parameters for ModelGeneratorMavenPlugin and their default values.
+          Details may be found at http://wiki.cyc.com/wiki/index.php/MAPI_Demo#Parameters
+          
+            <validateCMD>true</validateCMD>
+            <cmdPath>src/main/resources/CycModelDescription.xml</cmdPath>
+            <srcPath>target/generated-sources/model</srcPath>
+            <generateWS>false</generateWS>
+            <generateUI>false</generateUI>
+            -->
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.10</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>add-source</goal>
+              </goals>
+              <configuration>
+                <sources>
+                  <source>${cyc-model-generator-plugin.srcPath}</source>
+                </sources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -110,8 +197,9 @@
   <dependencies>
     <dependency>
       <groupId>com.cyc</groupId>
-      <artifactId>cyc-core-suite</artifactId>
+      <artifactId>cyc-core-api</artifactId>
     </dependency>
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

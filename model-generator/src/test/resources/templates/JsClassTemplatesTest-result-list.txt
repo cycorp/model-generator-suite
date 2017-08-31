@@ -1,0 +1,133 @@
+Ext.define('NAMESPACE.controller.SomeClasses', {
+  extend: 'Ext.app.Controller',
+  stores: ['SomeClasses'],
+  models: ['SomeClass'],
+  views: [
+    'SomeClass.List',
+    'SomeClass.Edit'
+  ],
+  
+  init: function() {
+    this.control({
+      'viewport > SomeClasslist': {
+        itemdblclick: this.editSomeClass
+      },
+      'SomeClassedit button[action=save]' : {
+        click: this.updateSomeClass
+      }
+    })
+  },
+  
+  editSomeClass: function(grid, record) {
+    var view = Ext.widget('SomeClassedit');
+    view.down('form').loadRecord(record);
+  },
+  
+  updateSomeClass: function(button) {
+    var win    = button.up('window'),
+        form   = win.down('form'),
+        record = form.getRecord(),
+        values = form.getValues();
+    record.set(values);
+    win.close();
+    this.getSomeClassesStore().sync();
+  }
+});
+
+Ext.define('NAMESPACE.model.SomeClass', {
+  extend: 'Ext.data.Model',
+  fields: [
+    {name: 'name', type: 'string'},
+    {name: 'displayName', type: 'string'},
+    {name: 'groupsReviewer', type: 'string'},
+    {name: 'cyclistPrimaryProject', type: 'string'}  ]
+});
+
+Ext.define('NAMESPACE.store.SomeClasses', {
+  extend: 'Ext.data.Store',
+  model : 'NAMESPACE.model.SomeClass',
+  autoLoad: true,
+  
+  proxy: {
+    type: 'ajax',
+    api: {
+      url:    '/ws/thingamabob/list/',
+      read:   '/ws/thingamabob/list/',
+      update: '/ws/thingamabob/list/'
+/*
+      read:   '/ws/thingamabob/name/test_Gizmo3/',
+      update: '/ws/thingamabob/name/test_Gizmo3/'
+*/
+    },
+    reader: {
+      type: 'json',
+      root: 'results',
+      successProperty: 'success'
+    }
+  }
+});
+
+Ext.define('NAMESPACE.view.SomeClass.Edit', {
+  extend: 'Ext.window.Window',
+  alias : 'widget.SomeClassedit',
+  
+  title : 'Edit SomeClass',
+  layout: 'fit',
+  autoShow: true,
+  
+  initComponent: function() {
+    this.items = [
+      {
+        xtype: 'form',
+        items: [
+          {
+            xtype: 'displayfield',
+            fieldLabel: 'SomeClass',
+            name : 'displayName',
+          },
+          {
+            xtype: 'textfield',
+            fieldLabel: 'groupsReviewer',
+            name : 'groupsReviewer'
+          },
+          {
+            xtype: 'textfield',
+            fieldLabel: 'cyclistPrimaryProject',
+            name : 'cyclistPrimaryProject'
+          }
+        ]
+      }
+    ];
+    
+    this.buttons = [
+      {
+        text:   'Save',
+        action: 'save'
+      },
+      {
+        text:  'Cancel',
+        scope: this,
+        handler: this.close
+      }
+    ];
+    
+    this.callParent(arguments);
+  }
+});
+
+Ext.define('NAMESPACE.view.SomeClass.List', {
+  extend: 'Ext.grid.Panel',
+  alias : 'widget.SomeClasslist',
+  title : 'All SomeClasses',
+  
+  store : 'SomeClasses',
+  
+  initComponent: function() {
+    this.columns = [
+      {header: 'SomeClass',  dataIndex: 'displayName',  flex: 1},
+      {header: 'cyclistPrimaryProject', dataIndex: 'cyclistPrimaryProject', flex: 1},
+      {header: 'groupsReviewer', dataIndex: 'groupsReviewer', flex: 1}    ];
+    
+    this.callParent(arguments);
+  }
+});

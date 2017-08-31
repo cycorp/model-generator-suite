@@ -13,6 +13,7 @@
     <resource>src/main/resources/CycModelDescription.xml</resource>
     <resource>src/main/webapp/default.css</resource>
     <resource>nbactions.xml</resource>
+    <resource>README.md</resource>
   </resources>
 
   <testSources>

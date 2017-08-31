@@ -1,5 +1,5 @@
 #* JAX-RS class-related macros. 
-   This file is loaded by com.cyc.library.mapi.templates.ClassTemplate.
+   This file is loaded by com.cyc.model.templates.ClassTemplate.
 *#
 
 

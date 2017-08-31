@@ -7,15 +7,15 @@
   <parent>
     <groupId>com.cyc.model</groupId>
     <artifactId>cyc-model-parent</artifactId>
-    <version>1.0.0-alpha-preview-1</version>
+    <version>1.0.0-rc6</version>
   </parent>
   
   <groupId>com.cyc.model</groupId>
   <artifactId>cyc-model-generator</artifactId>
-  <version>1.0.0-alpha-preview-1</version>
+  <version>1.0.0-rc6</version>
   <packaging>jar</packaging>
   
-  <name>Cyc Model Generator</name>
+  <name>Model Generator</name>
   <description>
     The Cyc Model Generator, which performs code generation of domain-specific Java APIs from terms
     in the Cyc KB.
@@ -81,7 +81,6 @@
       <plugin>
         <groupId>org.jvnet.jaxb2.maven2</groupId>
         <artifactId>maven-jaxb2-plugin</artifactId>
-        <version>0.8.3</version>
         <executions>
           <execution>
             <goals>
@@ -116,12 +115,28 @@
   
   <dependencies>
     <dependency>
+      <groupId>com.cyc</groupId>
+      <artifactId>cyc-core-client-impl</artifactId>
+    </dependency>
+    
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   

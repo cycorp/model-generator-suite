@@ -4,7 +4,7 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
   
   // Constructors
   
-  public $name(ContextMap contexts, ${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName}) throws ModelAPIException {
+  public $name(ContextMap contexts, ${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName}) throws ModelException {
     //super(contexts, ${class_obj.PrimaryImpl.InstanceName}, getClassType());
     super(contexts, ${class_obj.PrimaryImpl.InstanceName});
 
@@ -30,34 +30,34 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
       this.#predicate_prop( $method.Name ) = RelationImpl.get("${method.CycName}");
 #end
     } catch (Exception e) {
-      throw new ModelAPIException(e.getMessage(), e);
+      throw new ModelException(e.getMessage(), e);
     }
   }
   
-  public $name(Context ctx, ${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName}) throws ModelAPIException {
+  public $name(Context ctx, ${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName}) throws ModelException {
     this(new SimpleContextMap(ctx), ${class_obj.PrimaryImpl.InstanceName});
   }
   
-  public $name(String contextName, String ${class_obj.PrimaryImpl.InstanceName}Str) throws KBApiException, ModelAPIException {
+  public $name(String contextName, String ${class_obj.PrimaryImpl.InstanceName}Str) throws KbException, ModelException {
     this(ContextImpl.get(contextName), ${class_obj.PrimaryImpl.InstanceType}Impl.get(${class_obj.PrimaryImpl.InstanceName}Str));
   }
   
-  public $name(${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName}) throws ModelAPIException {
+  public $name(${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName}) throws ModelException {
     this(getDefaultContexts(), ${class_obj.PrimaryImpl.InstanceName});
   }
   
-  public $name(String ${class_obj.PrimaryImpl.InstanceName}Str) throws KBApiException, ModelAPIException {
+  public $name(String ${class_obj.PrimaryImpl.InstanceName}Str) throws KbException, ModelException {
     this(${class_obj.PrimaryImpl.InstanceType}Impl.findOrCreate(${class_obj.PrimaryImpl.InstanceName}Str));
   }
 
 #if (${class_obj.PrimaryImpl.RelationType} == "isa")
   // The NL find is a factory method, instead of a constructor, 
   // since it is more appropriate to return null when something is not found.
-  public static $name createObject(Context ctx, String ${class_obj.PrimaryImpl.InstanceName}NLStr) throws ModelAPIException {
+  public static $name createObject(Context ctx, String ${class_obj.PrimaryImpl.InstanceName}NLStr) throws ModelException {
     try {
       ${class_obj.PrimaryImpl.InstanceType} ${class_obj.PrimaryImpl.InstanceName} = ${class_obj.PrimaryImpl.InstanceType}Impl.findOrCreate(${class_obj.PrimaryImpl.InstanceName}NLStr, ${name}.getClassType(), ctx);
       return new $name(new SimpleContextMap(ctx), ${class_obj.PrimaryImpl.InstanceName});
-    } catch (KBApiException kae) {
+    } catch (KbException kae) {
       return null;
     }
   }
@@ -65,7 +65,7 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
   /*
   The following method is intended to find a specialization or quotedIsa of $name class. But the KB API/NL underneath it only
   support getting instances currently. 
-  public static $name createObject(Context ctx, String ${class_obj.PrimaryImpl.InstanceName}NLStr) throws ModelAPIException
+  public static $name createObject(Context ctx, String ${class_obj.PrimaryImpl.InstanceName}NLStr) throws ModelException
   */
 #end
 
@@ -81,14 +81,14 @@ $visibility class $name #class_extends( $superclass ) #class_implements( $interf
 #*Adding Impl string here instead of changing getCoreType to return implementation class
 because we use getCoreType in other places to represent return type as Interface*#
         core = ${class_obj.PrimaryImpl.CoreType}Impl.get("${class_obj.PrimaryImpl.CycName}");
-      } catch (KBApiException e) {  
-        throw new ModelAPIRuntimeException(e.getMessage(), e);
+      } catch (KbException e) {  
+        throw new ModelRuntimeException(e.getMessage(), e);
       }
     }
     return core;
   }
   
-  public static ContextMap getDefaultContexts() throws ModelAPIException {
+  public static ContextMap getDefaultContexts() throws ModelException {
     if (defaultContexts == null) {
       try {
         defaultContexts = new SimpleContextMap(
@@ -96,33 +96,33 @@ because we use getCoreType in other places to represent return type as Interface
                 "${class_obj.ContextMap.RelationContext}");
 
       } catch (Exception e) {
-        throw new ModelAPIException(e.getMessage(), e);
+        throw new ModelException(e.getMessage(), e);
       }
     }
     return defaultContexts;
   }
   
   // TODO: Decide if we need the following two methods. They don't hurt, but should 
-  // we expose lower level API (KBIndividual, KBCollection) to be accessible so easily?
+  // we expose lower level API (KbIndividual, KbCollection) to be accessible so easily?
   // If the user is using these frequently then there is an issue with the API.
   // Another point: Functionally the methods based on predicates defined here is 
   // all you can do with this concept. Ideally there should not be a need for accessing
   // lower level API core. We should probably make these private or protected
-  public static java.util.Collection<${class_obj.PrimaryImpl.InstanceType}> getAll${class_obj.PrimaryImpl.InstanceType}s(Context context) throws ModelAPIException {
+  public static java.util.Collection<${class_obj.PrimaryImpl.InstanceType}> getAll${class_obj.PrimaryImpl.InstanceType}s(Context context) throws ModelException {
     // TODO: This logic might get more complicated, at the least, different for genls
     // and other types of relations (genlPreds, genlMts)
     try {
       return getClassType().<${class_obj.PrimaryImpl.InstanceType}>getInstances(context);
     } catch (Exception e) {
-      throw new ModelAPIException(e.getMessage(), e);
+      throw new ModelException(e.getMessage(), e);
     } 
   }
   
-  public static java.util.Collection<${class_obj.PrimaryImpl.InstanceType}> getAll${class_obj.PrimaryImpl.InstanceType}s(ContextMap contexts) throws ModelAPIException {
+  public static java.util.Collection<${class_obj.PrimaryImpl.InstanceType}> getAll${class_obj.PrimaryImpl.InstanceType}s(ContextMap contexts) throws ModelException {
     return getAll${class_obj.PrimaryImpl.InstanceType}s(contexts.getCollectionContext());
   }
   
-  public static List<? extends ${class_obj.PrimaryImpl.Name}> getAllObjects(ContextMap contexts) throws ModelAPIException {
+  public static List<? extends ${class_obj.PrimaryImpl.Name}> getAllObjects(ContextMap contexts) throws ModelException {
     java.util.Collection<${class_obj.PrimaryImpl.InstanceType}> insts = getAll${class_obj.PrimaryImpl.InstanceType}s(contexts);
     List<${class_obj.PrimaryImpl.Name}> all = new ArrayList<${class_obj.PrimaryImpl.Name}>();
     
@@ -138,10 +138,10 @@ because we use getCoreType in other places to represent return type as Interface
 #*
   @Override
   public List<${class_obj.PrimaryImpl.Name}> allSibling${class_obj.PrimaryImpl.Name}s(Context context) throws Exception {
-    List<KBIndividual> inds = getClassType().subTypes(context, KBIndividual.class);
+    List<KbIndividual> inds = getClassType().subTypes(context, KbIndividual.class);
     List<${class_obj.PrimaryImpl.Name}> siblings = new ArrayList<${class_obj.PrimaryImpl.Name}>();
     //Context uvmt = Context.get("UniversalVocabularyMt");
-    for (KBIndividual ind : inds){
+    for (KbIndividual ind : inds){
       siblings.add(new ${name}(contexts, ind));
     }
     return siblings;
@@ -156,13 +156,13 @@ because we use getCoreType in other places to represent return type as Interface
 
 
   /**
-   * throws ModelAPIRuntimeException wrapping all lower level RuntimeExceptions
+   * throws ModelRuntimeException wrapping all lower level RuntimeExceptions
    */
-  public static boolean hasAsInstance(${class_obj.PrimaryImpl.InstanceType} kbobj) throws ModelAPIException {
+  public static boolean hasAsInstance(${class_obj.PrimaryImpl.InstanceType} kbobj) throws ModelException {
     try {
       return kbobj.isInstanceOf(getClassType(), getDefaultContexts().getCollectionContext());
     } catch (RuntimeException e) {
-      throw new ModelAPIRuntimeException(e.getMessage(), e);
+      throw new ModelRuntimeException(e.getMessage(), e);
     }
   }
 

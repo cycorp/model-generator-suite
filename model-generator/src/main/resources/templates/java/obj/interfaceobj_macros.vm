@@ -1,5 +1,5 @@
 #* Java interface-related macros. 
-   This file is loaded by com.cyc.library.mapi.templates.InterfaceTemplate.
+   This file is loaded by com.cyc.model.templates.InterfaceTemplate.
 *#
 
 

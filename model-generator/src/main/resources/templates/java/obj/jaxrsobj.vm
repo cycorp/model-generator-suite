@@ -66,7 +66,7 @@ $visibility class $name #class_extends( $superclass ) {
   protected ${class_obj.PrimaryImpl.Name} ${primaryDAOName}(
           String name,
           String collCtxParam, 
-          String predCtxParam) throws ModelAPIException {
+          String predCtxParam) throws ModelException {
     try {      
       if (name != null) {
         return new ${class_obj.Name}(
@@ -75,35 +75,35 @@ $visibility class $name #class_extends( $superclass ) {
       }
       return null;
     } catch (Exception e) {
-      throw new ModelAPIException(e.getMessage(), e);
+      throw new ModelException(e.getMessage(), e);
     }
   }
   
-  protected ContextMap getContextMap(String collCtxParam, String predCtxParam) throws ModelAPIException {
+  protected ContextMap getContextMap(String collCtxParam, String predCtxParam) throws ModelException {
     return new SimpleContextMap(
               getCollectionContext(collCtxParam),
               getPredicateContext(predCtxParam));
   }
   
-  protected Context getCollectionContext(String param) throws ModelAPIException {
+  protected Context getCollectionContext(String param) throws ModelException {
     try {
       if (param != null) {
         return ContextImpl.get(param);
       }
       return ${class_obj.Name}.getDefaultContexts().getCollectionContext();
     } catch (Exception e) {
-      throw new ModelAPIException(e.getMessage(), e);
+      throw new ModelException(e.getMessage(), e);
     }
   }
   
-  protected Context getPredicateContext(String param) throws ModelAPIException {
+  protected Context getPredicateContext(String param) throws ModelException {
     try {
       if (param != null) {
         return ContextImpl.get(param);
       }
       return ${class_obj.Name}.getDefaultContexts().getRelationContext();
     } catch (Exception e) {
-      throw new ModelAPIException(e.getMessage(), e);
+      throw new ModelException(e.getMessage(), e);
     }
   }
 }

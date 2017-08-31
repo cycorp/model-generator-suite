@@ -1,17 +1,17 @@
 package ${package};
 
-import com.cyc.query.exception.QueryConstructionException;
-import java.io.IOException;
-import com.cyc.kb.exception.KBApiException;
-import com.cyc.library.mapi.exceptions.ModelAPIException;
-/*
-import com.cyc.kb.client.SentenceImpl;
-import com.cyc.kb.exception.KBObjectNotFoundException;
-import com.cyc.library.mapi.ContextMap;
+import com.cyc.kb.KbFactory;
+import com.cyc.kb.exception.KbException;
+import com.cyc.kb.exception.KbObjectNotFoundException;
+import com.cyc.model.ContextMap;
+import com.cyc.model.exception.ModelException;
 import com.cyc.query.Query;
 import com.cyc.query.QueryFactory;
+import com.cyc.query.exception.QueryConstructionException;
+import java.io.IOException;
 import java.util.List;
 
+/*
 // Generated classes:
 import ${package}.cycImpl.CycBasedProjectImpl;
 import ${package}.cycImpl.HumanCyclistImpl;
@@ -29,7 +29,7 @@ public class App {
   public App() {
   }
   
-  protected void runExample() throws ModelAPIException, KBApiException, QueryConstructionException, IOException, Exception {
+  protected void runExample() throws ModelException, KbException, QueryConstructionException, IOException, Exception {
     /*
     System.out.println("We're going to do some simple user management, ensuring that all users "
             + "(cyclists) in the KB have a primary project to work on. Let's begin...\n");
@@ -50,7 +50,7 @@ public class App {
     try {
       CycBasedProject nonExistentProject = new CycBasedProjectImpl("UniversalVocabularyMt", "NonExistentProject");
       System.out.println("nonExistentProject: " + nonExistentProject);
-    } catch (KBObjectNotFoundException ex) {
+    } catch (KbObjectNotFoundException ex) {
       System.out.println("Unsurprisingly, NonExistentProject doesn't exist.");
     }
     
@@ -71,7 +71,7 @@ public class App {
     System.out.println("\nWe can retrieve cyclists (or projects, any Model representations) based on arbitrary queries.");
     System.out.println("Let's do a query for all cyclists without a primary project, and assign them to " + tempProject + ":");
     Query cyclistsWithoutPrimaryProjects = QueryFactory.getQuery(
-            new SentenceImpl(
+            KbFactory.getSentence(
             "  (and \n"
             + "  (isa ?CYCLIST HumanCyclist) \n"
             + "  (unknownSentence \n"
@@ -92,7 +92,7 @@ public class App {
         System.out.println(" - " + cyclist + " : " + cyclist.getCyclistPrimaryProject());
       }
       System.out.println("\nNumber of cyclists without a primary project: " + unassignedCyclists2.size());
-    } catch (ModelAPIException ex) {
+    } catch (ModelException ex) {
       System.out.println("Absolutely no results found!");
     }
     

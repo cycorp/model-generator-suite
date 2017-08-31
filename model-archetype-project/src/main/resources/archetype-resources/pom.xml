@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.cyc.model</groupId>
     <artifactId>cyc-model-parent</artifactId>
-    <version>1.0.0-alpha-preview-1</version>
+    <version>1.0.0-rc6</version>
   </parent>
   
   <groupId>${groupId}</groupId>
@@ -119,7 +119,11 @@
     </dependency>
     <dependency>
       <groupId>com.cyc</groupId>
-      <artifactId>cyc-core-suite</artifactId>
+      <artifactId>cyc-core-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.cyc</groupId>
+      <artifactId>cyc-core-client-impl</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

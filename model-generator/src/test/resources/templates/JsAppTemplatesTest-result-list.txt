@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- styles -->
+    <link rel="stylesheet" href="http://localhost/tmp/lib/ext/resources/css/ext-all.css" type="text/css">
+    
+    <!-- libraries -->
+    <script src="http://localhost/tmp/lib/ext/ext-all-debug.js" type="text/javascript"></script>
+    
+    <!-- app -->
+    <script src="appDir.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <h1>Howdy</h1>
+    <div>TODO write content</div>
+    
+  </body>
+</html>
+
+Ext.application({
+  name: 'NAMESPACE',
+  appFolder: 'appDir',
+  
+  controllers: [
+    'HumanCyclists'  ],
+  
+  launch: function() {
+    Ext.create('Ext.container.Viewport', {
+      layout: 'fit',
+      items: [
+        {
+          xtype: 'HumanCyclistlist',
+          title: 'HumanCyclists',
+          html : 'List of humancyclists here'
+        }      ]
+    });
+  }
+});

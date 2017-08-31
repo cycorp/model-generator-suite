@@ -11,7 +11,7 @@
   -->
   <!--
   <servlet>
-    <servlet-name>MAPIInitializer</servlet-name>
+    <servlet-name>ModelInitializer</servlet-name>
     <servlet-class>foo.bar.SomeHttpServlet</servlet-class>
     <load-on-startup>0</load-on-startup>
   </servlet>

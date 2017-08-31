@@ -7,12 +7,12 @@
   <parent>
     <groupId>com.cyc.model</groupId>
     <artifactId>cyc-model-parent</artifactId>
-    <version>1.0.0-alpha-preview-1</version>
+    <version>1.0.0-rc6</version>
   </parent>
   
   <groupId>com.cyc.model.maven</groupId>
   <artifactId>cyc-model-archetype-project</artifactId>
-  <version>1.0.0-alpha-preview-1</version>
+  <version>1.0.0-rc6</version>
   <packaging>jar</packaging>
   
   <name>Cyc Model Project Archetype</name>
